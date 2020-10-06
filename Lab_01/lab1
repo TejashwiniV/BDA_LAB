@@ -1,0 +1,57 @@
+use Lab1
+switched to db Lab1
+> db.createCollection("Student")
+{ "ok" : 1 }
+> db.Student.insert({_id:1,name:"ABC",dept:"CSE",sem:7,usn:"1BM17CS421",cgpa:9.12,sgpa:8.92})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:2,name:"BCD",dept:"CSE",sem:7,usn:"1BM17CS002",cgpa:9.26,sgpa:9.12})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:2,name:"CDE",dept:"CSE",sem:7,usn:"1BM17CS003",cgpa:8.4,sgpa:8.88})
+WriteResult({
+        "nInserted" : 0,
+        "writeError" : {
+                "code" : 11000,
+                "errmsg" : "E11000 duplicate key error collection: Lab1.Student index: _id_ dup key: { : 2.0 }"
+        }
+})
+> db.Student.insert({_id:3,name:"CDE",dept:"CSE",sem:7,usn:"1BM17CS003",cgpa:8.4,sgpa:8.88})
+WriteResult({ "nInserted" : 1 })
+>
+>
+>
+> db.createCollection("Faculty")
+{ "ok" : 1 }
+> db.Faculty.insert({_id:1,name:'ABCD',gender:'M',faculty_id:"1234567",courses:[{course:BDA},{course:CPP}], designation:"Asst. Professor"})
+2020-09-24T16:01:08.980+0530 E QUERY    [js] ReferenceError: BDA is not defined :
+@(shell):1:80
+> db.Faculty.insert({_id:1,name:'ABCD',gender:'M',faculty_id:"1234567",courses:[{course:"BDA"},{course:"CPP"}], designation:"Asst. Professor"})
+WriteResult({ "nInserted" : 1 })
+> db.Faculty.insert({_id:2,name:"BCDE",gender:'F',faculty_id:"2345678",courses:[{course:"Java"},{course:"OS"}],designation:"Professor"})
+WriteResult({ "nInserted" : 1 })
+> db.createCollection("COE")
+{ "ok" : 1 }
+> db.COE.insert({_id:1,dept_id:1,student_id:"1BM17CS116",cgpa:9.12,sgpa:8.92,sem:7})
+WriteResult({ "nInserted" : 1 })
+> db.COE.insert({_id:2,dept_id:1,student_id:"1BM17CS002",cgpa:9.26,sgpa:9.12,sem:7})
+WriteResult({ "nInserted" : 1 })
+> db.COE.insert({_id:3,dept_id:1,student_id:"1BM17CS003",cgpa:8.4,sgpa:8.88,sem:7})
+WriteResult({ "nInserted" : 1 })
+> db.createCollection("Library")
+{ "ok" : 1 }
+> db.Library.insert({_id:1,book_id:1,book_name:"qeqe",book_count:50,rem_book:36})
+WriteResult({ "nInserted" : 1 })
+> db.Library.insert({_id:2,book_id:2,book_name:"qwedf",book_count:50,rem_book:36})
+WriteResult({ "nInserted" : 1 })
+> db.Library.insert({_id:3,book_id:3,book_name:"fgtgt",book_count:50,rem_book:36})
+WriteResult({ "nInserted" : 1 })
+>
+>
+> db.createCollection("Admission")
+{ "ok" : 1 }
+>
+> db.Admission.insert({_id:1,name:"ABC",Cet_rank:2112,gender,'M',ad_date:"02-07-2017"})
+2020-09-24T16:21:50.128+0530 E QUERY    [js] SyntaxError: missing : after property id @(shell):1:62
+> db.Admission.insert({_id:1,name:"ABC",Cet_rank:2112,gender:'M',ad_date:"02-07-2017"})
+WriteResult({ "nInserted" : 1 })
+> db.Admission.insert({_id:2,name:"BCD",Cet_rank:5212,gender:'F',ad_date:"02-07-2017"})
+WriteResult({ "nInserted" : 1 })
