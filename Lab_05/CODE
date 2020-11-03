@@ -1,0 +1,57 @@
+cqlsh> Create keyspace Students with replication={'class':'SimpleStrategy','replication_factor':1};
+cqlsh> Describe keyspace;
+Not in any keyspace.
+cqlsh> Use Students;
+cqlsh:students> create table Students_info(Student_ID int PRIMARY KEY,
+            ... StudentName text,
+            ... DOJ timestamp,
+            ... Sem int,
+            ... Dep_Name text);
+cqlsh:students> Describe tables;
+
+students_info
+
+cqlsh:students> Describe table Students_info;
+
+CREATE TABLE students.students_info (
+    student_id int PRIMARY KEY,
+    dep_name text,
+    doj timestamp,
+    sem int,
+    studentname text
+) WITH bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = ''
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.1
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+cqlsh:students> begin batch
+            ... Insert into students_info(Student_ID,STudentName,DOJ,Sem,Dep_Name)values(116,'abc','2017-10-11',7,'CSE')
+            ... Insert into students_info(Student_ID,STudentName,DOJ,Sem,Dep_Name)values(121,'xyz','2017-10-12',7,'CSE')
+            ... apply batch;
+cqlsh:students> select * from students_info;
+
+ student_id | dep_name | doj                             | sem | studentname
+------------+----------+---------------------------------+-----+-------------
+        116 |      CSE | 2017-10-10 18:30:00.000000+0000 |   7 |         abc
+        121 |      CSE | 2017-10-11 18:30:00.000000+0000 |   7 |         xyz
+
+(2 rows)
+cqlsh:students> Update students_info SET StudentName='bcde' where Student_ID=121;
+cqlsh:students> select * from students_info;
+
+ student_id | dep_name | doj                             | sem | studentname
+------------+----------+---------------------------------+-----+-------------
+        116 |      CSE | 2017-10-10 18:30:00.000000+0000 |   7 |         abc
+        121 |      CSE | 2017-10-11 18:30:00.000000+0000 |   7 |        bcde
+
+(2 rows)
